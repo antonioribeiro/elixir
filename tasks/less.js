@@ -16,9 +16,9 @@ var config = Elixir.config;
  |
  */
 
-Elixir.extend('less', function(src, output, options) {
+Elixir.extend('less', function(src, output, options, baseDir) {
     new Elixir.Task('less', function() {
-        var paths = prepGulpPaths(src, output);
+        var paths = prepGulpPaths(src, baseDir, output);
 
         return compile({
             name: 'Less',
@@ -37,11 +37,12 @@ Elixir.extend('less', function(src, output, options) {
  * Prep the Gulp src and output paths.
  *
  * @param  {string|array} src
+ * @param  {string|null}  baseDir
  * @param  {string|null}  output
  * @return {object}
  */
-var prepGulpPaths = function(src, output) {
+var prepGulpPaths = function(src, baseDir, output) {
     return new Elixir.GulpPaths()
-        .src(src, config.get('assets.css.less.folder'))
+        .src(src, baseDir || config.get('assets.css.less.folder'))
         .output(output || config.get('public.css.outputFolder'), 'app.css');
 };

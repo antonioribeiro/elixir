@@ -16,9 +16,9 @@ var config = Elixir.config;
  |
  */
 
-Elixir.extend('coffee', function(src, output, options) {
+Elixir.extend('coffee', function(src, output, options, baseDir) {
     new Elixir.Task('coffee', function() {
-        var paths = prepGulpPaths(src, output);
+        var paths = prepGulpPaths(src, baseDir, output);
 
         this.log(paths.src, paths.output);
 
@@ -47,11 +47,12 @@ Elixir.extend('coffee', function(src, output, options) {
  * Prep the Gulp src and output paths.
  *
  * @param  {string|array} src
+ * @param  {string|null}  baseDir
  * @param  {string|null}  output
  * @return {object}
  */
-var prepGulpPaths = function(src, output) {
+var prepGulpPaths = function(src, baseDir, output) {
     return new Elixir.GulpPaths()
-        .src(src, config.get('assets.js.coffee.folder'))
+        .src(src, baseDir || config.get('assets.js.coffee.folder'))
         .output(output || config.get('public.js.outputFolder'), 'app.js');
 };

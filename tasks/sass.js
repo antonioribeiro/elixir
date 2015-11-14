@@ -16,9 +16,9 @@ var config = Elixir.config;
  |
  */
 
-var gulpTask = function(src, output, options) {
+var gulpTask = function(src, output, options, baseDir) {
     new Elixir.Task('sass', function() {
-        var paths = prepGulpPaths(src, output);
+        var paths = prepGulpPaths(src, baseDir, output);
 
         return compile({
             name: 'Sass',
@@ -48,11 +48,12 @@ Elixir.extend('rubySass', function() {
  * Prep the Gulp src and output paths.
  *
  * @param  {string|array} src
+ * @param  {string|null}  baseDir
  * @param  {string|null}  output
  * @return {object}
  */
-var prepGulpPaths = function(src, output) {
+var prepGulpPaths = function(src, baseDir, output) {
     return new Elixir.GulpPaths()
-        .src(src, config.get('assets.css.sass.folder'))
+        .src(src, baseDir || config.get('assets.css.sass.folder'))
         .output(output || config.get('public.css.outputFolder'), 'app.css');
 };
